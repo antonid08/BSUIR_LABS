@@ -1,0 +1,6 @@
+D:\study\ISP\lab6\Application\bin\Debug\Application.exe.config
+D:\study\ISP\lab6\Application\bin\Debug\Application.exe
+D:\study\ISP\lab6\Application\bin\Debug\Application.pdb
+D:\study\ISP\lab6\Application\obj\Debug\Application.csprojResolveAssemblyReference.cache
+D:\study\ISP\lab6\Application\obj\Debug\Application.exe
+D:\study\ISP\lab6\Application\obj\Debug\Application.pdb

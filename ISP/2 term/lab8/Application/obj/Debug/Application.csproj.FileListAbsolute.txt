@@ -1,0 +1,12 @@
+D:\study\ISP\lab7\Application\bin\Debug\Application.exe.config
+D:\study\ISP\lab7\Application\bin\Debug\Application.exe
+D:\study\ISP\lab7\Application\bin\Debug\Application.pdb
+D:\study\ISP\lab7\Application\obj\Debug\Application.csprojResolveAssemblyReference.cache
+D:\study\ISP\lab7\Application\obj\Debug\Application.exe
+D:\study\ISP\lab7\Application\obj\Debug\Application.pdb
+D:\study\ISP\lab8\Application\bin\Debug\Application.exe.config
+D:\study\ISP\lab8\Application\obj\Debug\Application.exe
+D:\study\ISP\lab8\Application\obj\Debug\Application.pdb
+D:\study\ISP\lab8\Application\bin\Debug\Application.exe
+D:\study\ISP\lab8\Application\bin\Debug\Application.pdb
+D:\study\ISP\lab8\Application\obj\Debug\Application.csprojResolveAssemblyReference.cache
