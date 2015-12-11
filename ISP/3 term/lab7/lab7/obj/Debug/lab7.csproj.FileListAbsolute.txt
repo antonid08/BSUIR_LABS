@@ -1,0 +1,14 @@
+E:\study\BSUIR_LABS\ISP\3 term\lab7\lab7\bin\Debug\lab7.exe.config
+E:\study\BSUIR_LABS\ISP\3 term\lab7\lab7\bin\Debug\lab7.exe
+E:\study\BSUIR_LABS\ISP\3 term\lab7\lab7\bin\Debug\lab7.pdb
+E:\study\BSUIR_LABS\ISP\3 term\lab7\lab7\obj\Debug\lab7.csprojResolveAssemblyReference.cache
+E:\study\BSUIR_LABS\ISP\3 term\lab7\lab7\obj\Debug\App.g.cs
+E:\study\BSUIR_LABS\ISP\3 term\lab7\lab7\obj\Debug\lab7_MarkupCompile.cache
+E:\study\BSUIR_LABS\ISP\3 term\lab7\lab7\obj\Debug\lab7_MarkupCompile.lref
+E:\study\BSUIR_LABS\ISP\3 term\lab7\lab7\obj\Debug\lab7.g.resources
+E:\study\BSUIR_LABS\ISP\3 term\lab7\lab7\obj\Debug\lab7.Properties.Resources.resources
+E:\study\BSUIR_LABS\ISP\3 term\lab7\lab7\obj\Debug\lab7.csproj.GenerateResource.Cache
+E:\study\BSUIR_LABS\ISP\3 term\lab7\lab7\obj\Debug\lab7.exe
+E:\study\BSUIR_LABS\ISP\3 term\lab7\lab7\obj\Debug\lab7.pdb
+E:\study\BSUIR_LABS\ISP\3 term\lab7\lab7\obj\Debug\VIew.g.cs
+E:\study\BSUIR_LABS\ISP\3 term\lab7\lab7\obj\Debug\VIew.baml

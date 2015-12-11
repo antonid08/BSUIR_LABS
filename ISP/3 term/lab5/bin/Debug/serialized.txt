@@ -1,7 +1,7 @@
 lab2.MainWindow+Bar
 lab2.MainWindow+Foo
 System.Int32
+6
+System.Int32
 ref
 0
-System.Int32
-6

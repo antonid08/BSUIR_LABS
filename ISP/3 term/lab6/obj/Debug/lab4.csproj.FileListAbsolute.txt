@@ -40,3 +40,6 @@ E:\study\ISP\2 term\lab6\obj\Debug\MainWindow.baml
 E:\study\ISP\2 term\lab6\obj\Debug\lab4.g.resources
 E:\study\ISP\2 term\lab6\obj\Debug\lab4.Properties.Resources.resources
 E:\study\ISP\2 term\lab6\obj\Debug\lab4.csproj.GenerateResource.Cache
+E:\study\BSUIR_LABS\ISP\3 term\lab6\bin\Debug\lab4.exe.config
+E:\study\BSUIR_LABS\ISP\3 term\lab6\obj\Debug\lab4.exe
+E:\study\BSUIR_LABS\ISP\3 term\lab6\obj\Debug\lab4.pdb

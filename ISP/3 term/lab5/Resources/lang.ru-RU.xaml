@@ -1,0 +1,31 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:lab8.Resources"
+                    xmlns:v="clr-namespace:System;assembly=mscorlib">
+    <v:String x:Key="m_Title">WPF Localization example</v:String>
+    <v:String x:Key="info_label">Инфо:</v:String>
+    <v:String x:Key="name_label">Название:</v:String>
+    <v:String x:Key="price_label">Цена:</v:String>
+    <v:String x:Key="count_label">Количество:</v:String>
+    <v:String x:Key="total_price_label">Общая цена:</v:String>
+    <v:String x:Key="discont_label">Скидка:</v:String>
+    <v:String x:Key="price_with_discont_label">Цена со скидкой:</v:String>
+    <v:String x:Key="add_to_basket_label">Добавить в корзину</v:String>
+    <v:String x:Key="remove_from_basket_label">Убрать из корзины</v:String>
+    <v:String x:Key="serialize_label">Сериализировать</v:String>
+    <v:String x:Key="show_cheapest_label">Покзаать самые дешевые</v:String>
+    <v:String x:Key="file_label">Фаил</v:String>
+    <v:String x:Key="serializetion_label">Сериализация</v:String>
+    <v:String x:Key="sort_label">Сортировка</v:String>
+    <v:String x:Key="language_label">Язык</v:String>
+    <v:String x:Key="read_from_txt_label">Ситать из .txt</v:String>
+    <v:String x:Key="read_frim_binary_label">Считать из бинарного файла</v:String>
+    <v:String x:Key="save_to_txt_label">Созранить в .txt</v:String>
+    <v:String x:Key="save_to_binaty_label">Считать из бинарного файла</v:String>
+    <v:String x:Key="exit_label">Выход</v:String>
+    <v:String x:Key="serialize_basket_label">Сериализовать корзину</v:String>
+    <v:String x:Key="desirialize_basket_label">Десериализовать корзину</v:String>
+    <v:String x:Key="sort_by_price_label">Сортировать по цене</v:String>
+    <v:String x:Key="shot_cheapest_label">Показать самые дешевые</v:String>
+
+</ResourceDictionary>

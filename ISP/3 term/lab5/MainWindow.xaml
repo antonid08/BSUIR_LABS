@@ -5,57 +5,244 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:lab2"
         mc:Ignorable="d"
-        Title="Shop" Height="350" Width="525">
+        Title="Shop" Height="367.626" Width="620.683"
+        >
+
+    <Window.CommandBindings>
+        <CommandBinding Command="local:Hotkeys.Ex" Executed="exitMenuItem"/>
+    </Window.CommandBindings>
+
+    <Window.Resources>
+        <Image x:Key="icon" Source="Resources/Process-Info.ico"/>
+
+
+
+        <Style TargetType="TextBlock">
+            <Setter Property="HorizontalAlignment" Value="Center" />
+            <Setter Property="FontFamily" Value="Comic Sans MS"/>
+            <Setter Property="FontSize" Value="14"/>
+        </Style>
+
+        <!--A Style that extends the previous TextBlock Style-->
+        <!--This is a "named style" with an x:Key of TitleText-->
+        <Style
+       TargetType="TextBlock"
+       x:Key="TitleText">
+            <Setter Property="FontSize" Value="26"/>
+            <Setter Property="Foreground">
+                <Setter.Value>
+                    <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                        <LinearGradientBrush.GradientStops>
+                            <GradientStop Offset="0.0" Color="Black" />
+                            <GradientStop Offset="1.0" Color="Red" />
+                        </LinearGradientBrush.GradientStops>
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+
+
+        </Style>
+
+
+        <DataTemplate x:Key="ListBoxTemplate">
+            <Grid Margin="5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="{Binding Name}" HorizontalAlignment="Center" VerticalAlignment="Bottom" Grid.Column="0" 
+                                   FontWeight="Bold" FontSize="15"/>
+            </Grid>
+        </DataTemplate>
+
+
+        <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}"
+                   Color="DarkRed" />
+        <Style x:Key="normal" TargetType="ListBoxItem">
+            <Setter Property="Background" Value="LightSteelBlue" />
+            <Setter Property="Margin" Value="3" />
+            <Setter Property="Padding" Value="3" />
+            <Style.Triggers>
+                <Trigger Property="IsSelected" Value="True">
+                    <Setter Property="FontSize" Value="14" />
+                    <Setter Property="FontWeight" Value="Bold" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <LinearGradientBrush x:Key="NormalBackgroundButton" EndPoint="0.5,1" StartPoint="0.5,0">
+            <GradientStop Color="LightSkyBlue" Offset="0"/>
+            <GradientStop Color="LightSkyBlue" Offset="1"/>
+        </LinearGradientBrush>
+        <LinearGradientBrush x:Key="HighLightBackgroundButton" EndPoint="0.5,1" StartPoint="0.5,0">
+            <GradientStop Color="#FF80F49B" Offset="0"/>
+            <GradientStop Color="#FF80F49B" Offset="1"/>
+        </LinearGradientBrush>
+        <Style x:Key="KeyFrames" TargetType="Button">
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Grid x:Name="rootGrid">
+                            <Grid.RenderTransform>
+                                <ScaleTransform x:Name="scaleTransform" ScaleX="1"/>
+                            </Grid.RenderTransform>
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualStateGroup.Transitions>
+                                        <VisualTransition From="Normal" To="MouseOver" GeneratedDuration="0:0:0.3">
+                                            <Storyboard>
+                                                <DoubleAnimationUsingKeyFrames Storyboard.TargetName="scaleTransform" Storyboard.TargetProperty="ScaleX">
+                                                    <LinearDoubleKeyFrame KeyTime="0:0:0.4" Value="1.2"/>
+                                                    <LinearDoubleKeyFrame KeyTime="0:0:0.6" Value="1"/>
+                                                </DoubleAnimationUsingKeyFrames>
+                                            </Storyboard>
+                                        </VisualTransition>
+                                    </VisualStateGroup.Transitions>
+                                    <VisualState x:Name="MouseOver">
+                                        <Storyboard>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Normal">
+                                        <Storyboard>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Disabled">
+                                        <Storyboard>
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                                <VisualStateGroup x:Name="FocusStates">
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                            <Border x:Name="bg" Background="{StaticResource NormalBackgroundButton}" BorderThickness="3" BorderBrush="LightSkyBlue"/>
+                            <Border x:Name="bg_highlight" Opacity="0" Background="{StaticResource HighLightBackgroundButton}" BorderThickness="3" BorderBrush="#FF80F49B"/>
+                            <Border x:Name="bg_disabled" Opacity="0" Background="#666" BorderThickness="3" BorderBrush="#888"/>
+                            <ContentPresenter VerticalAlignment="{TemplateBinding VerticalContentAlignment}" HorizontalAlignment="Center"/>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="Interpolation" TargetType="Button">
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Width" Value="200"/>
+            <Setter Property="Height" Value="40"/>
+            <Setter Property="Padding" Value="10"/>
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Grid>
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualStateGroup.Transitions>
+                                        <VisualTransition To="MouseOver" GeneratedDuration="0:0:0.4"/>
+                                        <VisualTransition To="Normal" GeneratedDuration="0:0:0.3"/>
+                                    </VisualStateGroup.Transitions>
+                                    <VisualState x:Name="MouseOver">
+                                        <Storyboard>
+                                            <DoubleAnimation To="0" Storyboard.TargetName="bg_highlight" Storyboard.TargetProperty="Opacity"/>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Normal">
+                                        <Storyboard>
+                                            <DoubleAnimation To="1" Storyboard.TargetName="bg_highlight" Storyboard.TargetProperty="Opacity"/>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Disabled">
+                                        <Storyboard>
+                                            <DoubleAnimation Duration="0:0:0" To="1" Storyboard.TargetName="bg_disabled" Storyboard.TargetProperty="Opacity"/>
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                                <VisualStateGroup x:Name="FocusStates">
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                            <Border x:Name="bg_highlight" Opacity="0" Background="{StaticResource HighLightBackgroundButton}" BorderThickness="3" BorderBrush="#FF80F49B"/>
+                            <Border x:Name="bg_disabled" Opacity="0" Background="#123" BorderThickness="3" BorderBrush="#888"/>
+                            <ContentPresenter VerticalAlignment="{TemplateBinding VerticalContentAlignment}" HorizontalAlignment="Center"/>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style TargetType="Viewbox">
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="RenderTransform">
+                        <Setter.Value>
+                            <RotateTransform Angle="10" />
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+            </Style.Triggers>
+            <Setter Property="Height" Value="40" />
+            <Setter Property="Width" Value="80" />
+            <Setter Property="RenderTransformOrigin" Value=".5,.5" />
+        </Style>
+
+
+    </Window.Resources>
+
+
+
     <Grid Margin="0,0,3.4,-0.2" RenderTransformOrigin="0.506,0.591" OpacityMask="#FFD13434">
-        <ListBox x:Name="availableItemsLB" HorizontalAlignment="Left" Height="184" Margin="20,34,0,0" VerticalAlignment="Top" Width="139" SelectionChanged="availableItemsLB_SelectionChanged">
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <Grid Margin="5">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition />
-                            <ColumnDefinition />
-                            <ColumnDefinition />
-                        </Grid.ColumnDefinitions>
-                        <TextBlock Text="{Binding Name}" HorizontalAlignment="Center" VerticalAlignment="Bottom" Grid.Column="0" />
-                    </Grid>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
+        <ListBox x:Name="availableItemsLB" HorizontalAlignment="Left" Height="184" Margin="20,34,0,0" VerticalAlignment="Top" Width="139" SelectionChanged="availableItemsLB_SelectionChanged"
+                 ItemTemplate="{StaticResource ListBoxTemplate}">
         </ListBox>
-        <Button x:Name="button" Content="Add to the basket" HorizontalAlignment="Left" Margin="20,223,0,0" VerticalAlignment="Top" Width="139" Click="addToBasketBtnClick"/>
-        <ListBox x:Name="basketLB" HorizontalAlignment="Left" Height="184" Margin="310,34,0,0" VerticalAlignment="Top" Width="139" SelectionChanged="basketLB_SelectionChanged">
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <Grid Margin="5">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition />
-                            <ColumnDefinition />
-                            <ColumnDefinition />
-                        </Grid.ColumnDefinitions>
-                        <TextBlock Text="{Binding Name}" HorizontalAlignment="Center" VerticalAlignment="Bottom" Grid.Column="0" />
-                    </Grid>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
+        <Button x:Name="button" Content="{StaticResource add_to_basket_label}" HorizontalAlignment="Left" Margin="20,223,0,0" VerticalAlignment="Top" Width="139" Click="addToBasketBtnClick"/>
+        <ListBox x:Name="basketLB" HorizontalAlignment="Left" Height="184" Margin="428,30,0,0" VerticalAlignment="Top" Width="139" 
+                 SelectionChanged="basketLB_SelectionChanged" ItemTemplate="{StaticResource ListBoxTemplate}">
         </ListBox>
-        <Button x:Name="button1" Content="Remove from the basket" HorizontalAlignment="Left" Margin="310,223,0,0" VerticalAlignment="Top" Width="139" Click="removeFromBasketBtnClick"/>
-        <TextBlock x:Name="textBlock" HorizontalAlignment="Left" Margin="164,56,0,0" TextWrapping="Wrap" Text="Info:" VerticalAlignment="Top" Height="36" FontSize="21.333" FontFamily="Trebuchet MS" Width="53"/>
-        <TextBlock x:Name="textBlock2" HorizontalAlignment="Left" Margin="213,81,0,0" TextWrapping="Wrap" Text="Price:" VerticalAlignment="Top" Height="17"/>
-        <TextBlock x:Name="textBlock3" HorizontalAlignment="Left" Margin="213,103,0,0" TextWrapping="Wrap" Text="Count:" VerticalAlignment="Top" RenderTransformOrigin="0.372,-0.656" Height="16"/>
-        <TextBlock x:Name="selectedItemPriceTB" HorizontalAlignment="Left" Margin="261,81,0,0" TextWrapping="Wrap" Text="-" VerticalAlignment="Top" Height="17"/>
-        <TextBlock x:Name="selectedItemCountTB" HorizontalAlignment="Left" Margin="261,103,0,0" TextWrapping="Wrap" Text="-" VerticalAlignment="Top" Height="16"/>
-        <TextBlock x:Name="textBlock4" HorizontalAlignment="Left" Margin="199,170,0,0" TextWrapping="Wrap" Text="Total price:" VerticalAlignment="Top" RenderTransformOrigin="0.45,-0.811"/>
-        <TextBlock x:Name="totalPriceTB" HorizontalAlignment="Left" Margin="271,170,0,0" TextWrapping="Wrap" Text="-" VerticalAlignment="Top"/>
-        <TextBlock x:Name="textBlock5" HorizontalAlignment="Left" Margin="200,190,0,0" TextWrapping="Wrap" Text="Discont:" VerticalAlignment="Top"/>
-        <TextBlock x:Name="textBlock6" HorizontalAlignment="Left" Margin="170,212,0,0" TextWrapping="Wrap" Text="Price with discont:" VerticalAlignment="Top"/>
-        <TextBlock x:Name="discontTB" HorizontalAlignment="Left" Margin="271,190,0,0" TextWrapping="Wrap" Text="-" VerticalAlignment="Top"/>
-        <TextBlock x:Name="priceWithDiscontTB" HorizontalAlignment="Left" Margin="271,210,0,0" TextWrapping="Wrap" Text="-" VerticalAlignment="Top"/>
-        <TextBlock x:Name="textBlock1" HorizontalAlignment="Left" Margin="213,60,0,0" TextWrapping="Wrap" Text="Name: " VerticalAlignment="Top"/>
-        <TextBlock x:Name="selectedItemNameTB" HorizontalAlignment="Left" Margin="261,60,0,0" TextWrapping="Wrap" Text="-" VerticalAlignment="Top"/>
-        <Button x:Name="button2" Content="Считать из файла" HorizontalAlignment="Left" Margin="454,34,0,0" VerticalAlignment="Top" Width="51" Height="85" Click="button2_Click"/>
-        <Button x:Name="button3" Content="Записать в фаил" HorizontalAlignment="Left" Margin="454,135,0,0" VerticalAlignment="Top" Width="51" Height="70" Click="button3_Click"/>
-        <Button x:Name="button4" Content="Распаковать из архива&#xD;&#xA;" HorizontalAlignment="Left" VerticalAlignment="Top" Width="139" Margin="310,262,0,0" Click="button4_Click"/>
-        <Button x:Name="button5" Content="считать из текстового" HorizontalAlignment="Left" VerticalAlignment="Top" Width="124" Margin="142,262,0,0" Click="button5_Click"/>
-        <Button x:Name="button6" Content="Sort by price" HorizontalAlignment="Left" Margin="20,10,0,0" VerticalAlignment="Top" Width="75" Click="button6_Click"/>
-        <Button x:Name="button7" Content="Show cheapest" HorizontalAlignment="Left" Margin="100,10,0,0" VerticalAlignment="Top" Width="117" Height="19" Click="button7_Click"/>
-        <Button x:Name="button8" Content="Сериализация" HorizontalAlignment="Left" Margin="20,267,0,0" VerticalAlignment="Top" Width="90" Click="button8_Click"/>
+        <Button x:Name="button1" Content="{DynamicResource remove_from_basket_label}" HorizontalAlignment="Left" Margin="428,219,0,0" VerticalAlignment="Top" Width="139" Click="removeFromBasketBtnClick"/>
+        <TextBlock Style="{StaticResource TitleText}" x:Name="info_tb" HorizontalAlignment="Left" Margin="165,59,0,0" TextWrapping="Wrap" Text="{DynamicResource info_label}" VerticalAlignment="Top" Height="36" FontSize="21.333" FontFamily="Trebuchet MS" Width="71"/>
+        <TextBlock x:Name="textBlock2" HorizontalAlignment="Left" Margin="268,84,0,0" TextWrapping="Wrap" Text="{DynamicResource price_label}" VerticalAlignment="Top" Height="17"/>
+        <TextBlock x:Name="textBlock3" HorizontalAlignment="Left" Margin="268,107,0,0" TextWrapping="Wrap" Text="{DynamicResource count_label}" VerticalAlignment="Top" RenderTransformOrigin="0.372,-0.656" Height="16"/>
+        <TextBlock x:Name="selectedItemPriceTB" HorizontalAlignment="Left" Margin="316,84,0,0" TextWrapping="Wrap" Text="-" VerticalAlignment="Top" Height="17"/>
+        <TextBlock x:Name="selectedItemCountTB" HorizontalAlignment="Left" Margin="316,107,0,0" TextWrapping="Wrap" Text="-" VerticalAlignment="Top" Height="16"/>
+        <TextBlock x:Name="textBlock4" HorizontalAlignment="Left" Margin="238,159,0,0" TextWrapping="Wrap" Text="{DynamicResource total_price_label}" VerticalAlignment="Top" RenderTransformOrigin="0.45,-0.811"/>
+        <TextBlock x:Name="totalPriceTB" HorizontalAlignment="Left" Margin="322,159,0,0" TextWrapping="Wrap" Text="-" VerticalAlignment="Top"/>
+        <TextBlock x:Name="textBlock5" HorizontalAlignment="Left" Margin="246,180,0,0" TextWrapping="Wrap" Text="{DynamicResource discont_label}" VerticalAlignment="Top"/>
+        <TextBlock x:Name="textBlock6" HorizontalAlignment="Left" Margin="206,204,0,0" TextWrapping="Wrap" Text="{DynamicResource price_with_discont_label}" VerticalAlignment="Top"/>
+        <TextBlock x:Name="discontTB" HorizontalAlignment="Left" Margin="318,180,0,0" TextWrapping="Wrap" Text="-" VerticalAlignment="Top"/>
+        <TextBlock x:Name="priceWithDiscontTB" HorizontalAlignment="Left" Margin="339,204,0,0" TextWrapping="Wrap" Text="-" VerticalAlignment="Top"/>
+        <TextBlock x:Name="textBlock1" HorizontalAlignment="Left" Margin="268,64,0,0" TextWrapping="Wrap" Text="{DynamicResource name_label}" VerticalAlignment="Top"/>
+        <TextBlock x:Name="selectedItemNameTB" HorizontalAlignment="Left" Margin="316,64,0,0" TextWrapping="Wrap" Text="-" VerticalAlignment="Top"/>
+        <Button x:Name="button7" Content="Show cheapest" HorizontalAlignment="Left" Margin="246,277,0,0" VerticalAlignment="Top" Width="146" Height="19" Click="button7_Click"
+                Style="{StaticResource Interpolation}"/>
+        <Button x:Name="button8" Content="{DynamicResource serialize_label}" HorizontalAlignment="Left" Margin="35,277,0,0" VerticalAlignment="Top" Width="137" Click="button8_Click"
+                Style="{StaticResource KeyFrames}"/>
+
+        <Grid Margin="0,1,0,309.6">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition></RowDefinition>
+            </Grid.RowDefinitions>
+            <Menu Height="20">
+                <MenuItem Header="File">
+                    <MenuItem Header="{DynamicResource read_from_txt_label}" Click="readFromTxtFileMenuItem"></MenuItem>
+                    <MenuItem Header="{DynamicResource read_frim_binary_label}" Click="readFromBinaryFileMenuItem"></MenuItem>
+                    <MenuItem Header="{DynamicResource save_to_txt_label}" Click="writeToTxtFileMenuItem"></MenuItem>
+                    <MenuItem Header="{DynamicResource save_to_binaty_label}" Click="saveToBinaryFileMenuItem"></MenuItem>
+                    <Separator></Separator>
+                    <MenuItem Header="{DynamicResource exit_label}" Click="exitMenuItem" ></MenuItem>
+                </MenuItem>
+                <MenuItem Header="{DynamicResource serializetion_label}" Icon="{StaticResource icon}" Height="20">
+                    <MenuItem Header="{DynamicResource serialize_basket_label}"></MenuItem>
+                    <MenuItem Header="{DynamicResource desirialize_basket_label}"></MenuItem>
+                </MenuItem>
+                <MenuItem Header="{DynamicResource sort_label}">
+                    <MenuItem Header="{DynamicResource sort_by_price_label}"></MenuItem>
+                    <MenuItem Header="{DynamicResource show_cheapest_label}"></MenuItem>
+                </MenuItem>
+                <MenuItem x:Name="menuLanguage" Header="{DynamicResource language_label}" Height="20">
+                </MenuItem>
+            </Menu>
+        </Grid>
     </Grid>
 </Window>

@@ -2,14 +2,36 @@
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
+using System.Globalization;
 
 namespace lab2
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
-    public partial class MainWindow : Window
+
+    public class Hotkeys
     {
+        private static RoutedUICommand ex;
+
+
+        static Hotkeys()
+        {
+            InputGestureCollection inputs = new InputGestureCollection();
+            inputs.Add(new KeyGesture(Key.X, ModifierKeys.Alt, "Alt+X"));
+            ex = new RoutedUICommand("Exit", "Exit", typeof(Hotkeys), inputs);
+            inputs = new InputGestureCollection();
+        }
+
+        public static RoutedUICommand Ex
+        {
+            get { return ex; }
+        }
+    }
+
+        /// <summary>
+        /// Interaction logic for MainWindow.xaml
+        /// </summary>
+        public partial class MainWindow : Window
+        {
         PurchaseCollection availablePurchases;
         PurchaseCollection myBasket;
 
@@ -133,6 +155,48 @@ namespace lab2
             InitializeComponent();
             setUpCollections();
             setUpListBox();
+
+            App.LanguageChanged += LanguageChanged;
+
+            CultureInfo currLang = App.Language;
+
+            //Заполняем меню смены языка:
+            menuLanguage.Items.Clear();
+            foreach (var lang in App.Languages)
+            {
+                MenuItem menuLang = new MenuItem();
+                menuLang.Header = lang.DisplayName;
+                menuLang.Tag = lang;
+                menuLang.IsChecked = lang.Equals(currLang);
+                menuLang.Click += ChangeLanguageClick;
+                menuLanguage.Items.Add(menuLang);
+            }
+        }
+
+        private void LanguageChanged(Object sender, EventArgs e)
+        {
+            CultureInfo currLang = App.Language;
+
+            //Отмечаем нужный пункт смены языка как выбранный язык
+            foreach (MenuItem i in menuLanguage.Items)
+            {
+                CultureInfo ci = i.Tag as CultureInfo;
+                i.IsChecked = ci != null && ci.Equals(currLang);
+            }
+        }
+
+        private void ChangeLanguageClick(Object sender, EventArgs e)
+        {
+            MenuItem mi = sender as MenuItem;
+            if (mi != null)
+            {
+                CultureInfo lang = mi.Tag as CultureInfo;
+                if (lang != null)
+                {
+                    App.Language = lang;
+                }
+            }
+
         }
 
         //Writing to binary file
@@ -214,5 +278,47 @@ namespace lab2
             int i = Convert.ToInt32(s.readObject());
             s.writeObject();*/
         }
+
+        private void readFromBinaryFileMenuItem(object sender, RoutedEventArgs e)
+        {
+            if (!myBasket.readFromFile("myFile", 0))
+            {
+                MessageBox.Show("Файла не существует.");
+            }
+        }
+
+        private void saveToBinaryFileMenuItem(object sender, RoutedEventArgs e)
+        {
+            myBasket.writeToBinaryFile("myFile.my");
+            myBasket.wrirteToTxtFile("myFile.txt");
+
+            if (!myBasket.compressFile("myFile.my", "myFile.gz"))
+            {
+                MessageBox.Show("Исходного файла не существует.");
+            }
+        }
+
+        private void writeToTxtFileMenuItem(object sender, RoutedEventArgs e)
+        {
+            myBasket.wrirteToTxtFile("myFile.txt");
+
+            if (!myBasket.compressFile("myFile.my", "myFile.gz"))
+            {
+                MessageBox.Show("Исходного файла не существует.");
+            }
+
+        }
+
+        private void readFromTxtFileMenuItem(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void exitMenuItem(object sender, RoutedEventArgs e)
+        {
+            Environment.Exit(0);
+        }
+
+  
     }
 }
