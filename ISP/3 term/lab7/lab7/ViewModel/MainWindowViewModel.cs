@@ -29,33 +29,17 @@ namespace lab7.ViewModel
 
         #region properties
 
-        public PlayList StandartPlaylist { get; set; }
-        public Player Player { get; set; }
+        public List<PlayList> PlayLists { get; set; }
+        public PlayList SelectedPlayList { get; set; }
+      
 
-
+        public int NumberOfCurrentTab { get; set; }
         public int CompositionsListBoxSelectedIndex { get; set; }
 
-        public string PlayButtonState {
-            get
-            { return playButtonState; }
-            set
-            {
-                if (playButtonState != value)
-                {
-                    playButtonState = value;
-                    OnPropertyChanged("PlayButtonState");
-                }
-            }
-        }
-
+        
         #endregion
 
         #region fields
-
-        string playButtonState;
-
-        const string play = "Play";
-        const string pause = "Pause";
 
         #endregion
 
@@ -78,9 +62,12 @@ namespace lab7.ViewModel
 
         public MainWindowViewModel()
         {
-            PlayButtonState = play; 
+        
+            PlayLists = new List<PlayList>();
+            
+            initializePlayList(0);
 
-            StandartPlaylist = new PlayList();
+
             PlayButtonPressedCommand = new Command(arg => onPlayButtonClick());
             NextButtonPressedCommand = new Command(arg => onNextButtonClick());
             PreviousButtonPressedCommand = new Command(arg => onPreviousButtonClick());
@@ -88,7 +75,18 @@ namespace lab7.ViewModel
             CompositionsListBoxItemSelectionChangedCommand = new RelayCommand<int>(onCompositionsListBoxSelectionChanged);
             CompositionsListBoxItemDoubleClickedCommand = new Command(arg => onCompositionsListBoxItemDoubleClick());
 
-            Player = new Player(StandartPlaylist.compositions);
+        }
+
+        public void initializePlayList(int index)
+        {
+            PlayLists.Add(new PlayList("Memes"));
+            PlayLists[index].addComposition(new Composition(1, 5, "My name is..", "John Cena",
+                new TimeSpan(0, 0, 5)));
+            PlayLists[index].addComposition(new Composition(2, 10, "8-800-555-35-35", "Red t-shirt man",
+                new TimeSpan(0, 0, 13)));
+            PlayLists[index].addComposition(new Composition(3, 9, "Выпьем за любовь!", "Игорь Николаев",
+                new TimeSpan(0, 2, 48)));
+
         }
 
         #endregion
@@ -97,74 +95,36 @@ namespace lab7.ViewModel
 
         private void onPlayButtonClick()
         {
-            if (Player == null)
-                Player = new Player(StandartPlaylist.compositions);
-
-
-            if (PlayButtonState.Equals(play))
-            {
-                if (!Player.isPaused)
-                {
-                    Player.stop();
-                    Player.play(CompositionsListBoxSelectedIndex);
-                }
-                else
-                {
-                    Player.unpause();
-                }
-                PlayButtonState = pause;
-            }
-            else
-            {
-                Player.pause();
-                PlayButtonState = play;
-            }
+            SelectedPlayList.play(CompositionsListBoxSelectedIndex);
         }
 
         private void onNextButtonClick()
         {
-            if (Player != null)
-            {
-                Player.playNext();
-                PlayButtonState = pause;
-            }
-
+            SelectedPlayList.playNext();
         }
 
         private void onPreviousButtonClick()
         {
-            if (Player != null)
-            {
-                Player.playPrevious();
-                PlayButtonState = pause;
-            }
+                SelectedPlayList.playPrevious();
         }
 
-        private void onCompositionsListBoxSelectionChanged(int par)
+        private void onCompositionsListBoxSelectionChanged(int newSelectedIndex)
         {
-            CompositionsListBoxSelectedIndex = par;
-            if (Player != null)
+            CompositionsListBoxSelectedIndex = newSelectedIndex;
+            if (SelectedPlayList.isPlaying)
             {
-                if (Player.isPlaying)
-                {
-                    if (CompositionsListBoxSelectedIndex != Player.CurrentCompositionIndex)
-                        PlayButtonState = play;
-                    else
-                        PlayButtonState = pause;
-                }
+                if (CompositionsListBoxSelectedIndex != SelectedPlayList.CurrentCompositionIndex)
+                    SelectedPlayList.PlayButtonState = SelectedPlayList.PlayState;
+                else
+                    SelectedPlayList.PlayButtonState = SelectedPlayList.PauseState;
             }
         }
 
         private void onCompositionsListBoxItemDoubleClick()
         {
-            if (Player == null)
-            {
-                Player = new Player(StandartPlaylist.compositions);
-            }
-
-            Player.stop();
-            Player.play(CompositionsListBoxSelectedIndex);
-            PlayButtonState = pause;
+            //SelectedPlayList.stop();
+            SelectedPlayList.play(CompositionsListBoxSelectedIndex);
+            //PlayButtonState = pause;
         }
 
         #endregion
