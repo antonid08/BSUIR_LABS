@@ -1,0 +1,66 @@
+﻿<Window x:Class="lab7.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:lab7"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="350" Width="525">
+
+
+    <Window.Resources>
+
+
+        <DataTemplate x:Key="ListBoxTemplate">
+            <Grid Margin="5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="{Binding Name}">
+                    <!--<TextBlock.InputBindings>
+                        <MouseBinding Gesture="LeftDoubleClick"                                           
+                                  Command="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=DataContext.CompositionsListBoxItemDoubleClicledCommand}"/>
+                    </TextBlock.InputBindings>-->
+                </TextBlock>
+
+            </Grid>
+        </DataTemplate>
+
+
+    </Window.Resources>
+    <Grid>
+        <ListBox x:Name="playListListBox" HorizontalAlignment="Left" Height="135" Margin="155,28,0,0" VerticalAlignment="Top" Width="293"
+                 ItemTemplate="{StaticResource ListBoxTemplate}" ItemsSource="{Binding Path= StandartPlaylist.compositions}" 
+                 SelectedIndex="{Binding Path = Player.CurrentCompositionIndex, Mode=OneWay}">
+
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="MouseDoubleClick">
+                    <i:InvokeCommandAction Command="{Binding CompositionsListBoxItemDoubleClickedCommand}"/>
+                </i:EventTrigger>
+                <i:EventTrigger EventName="SelectionChanged">
+                    <i:InvokeCommandAction Command="{Binding CompositionsListBoxItemSelectionChangedCommand}" CommandParameter="{Binding ElementName=playListListBox,Path=SelectedIndex}"/>
+                </i:EventTrigger>
+
+            </i:Interaction.Triggers>
+        </ListBox>
+
+
+        <Button x:Name="button1" Content="{Binding PlayButtonState, Mode=TwoWay}" HorizontalAlignment="Left" Margin="231,248,0,0" VerticalAlignment="Top" Width="38" Command="{Binding PlayButtonPressedCommand}"/>
+        <Button x:Name="button3" Content="Next" HorizontalAlignment="Left" Margin="296,248,0,0" VerticalAlignment="Top" Width="37" Command="{Binding NextButtonPressedCommand}"/>
+        <Button x:Name="button4" Content="Previous" HorizontalAlignment="Left" Margin="155,248,0,0" VerticalAlignment="Top" Width="57" Command="{Binding PreviousButtonPressedCommand}"/>
+        <TextBlock x:Name="currentTimeTextBlock" HorizontalAlignment="Left" Margin="394,248,0,0" TextWrapping="Wrap"  Text="{Binding Path = Player.StopWatch, StringFormat=0:mm:ss}" VerticalAlignment="Top" Height="24" Width="90"/>
+        <Label x:Name="nameOfCurrenSongLabel" Content="{Binding Path=Player.CurrentComposition.Name}" HorizontalAlignment="Left" Margin="155,184,0,0" VerticalAlignment="Top" Height="36" Width="156"/>
+        <Slider x:Name="slider"
+                Minimum="0"
+                   Maximum="{Binding Path=Player.CurrentComposition.Length.TotalSeconds, UpdateSourceTrigger=PropertyChanged}"
+                   Value="{Binding Path=Player.StopWatch.Second, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                   SmallChange="1" TickFrequency="1" IsSnapToTickEnabled="True"
+                HorizontalAlignment="Left" Margin="22,225,0,0" VerticalAlignment="Top" Width="476"/>
+        <Label x:Name="label" Content="{Binding Path= Player.CurrentComposition.Performer}" HorizontalAlignment="Left" Margin="45,184,0,0" VerticalAlignment="Top" Height="36" Width="105"/>
+
+
+    </Grid>
+</Window>

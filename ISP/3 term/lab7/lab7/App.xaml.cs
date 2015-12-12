@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
+using lab7.ViewModel;
+
 
 namespace lab7
 {
@@ -13,5 +9,14 @@ namespace lab7
     /// </summary>
     public partial class App : Application
     {
+        public App()
+        {
+            var mw = new MainWindow
+            {
+                DataContext = new MainWindowViewModel()
+            };
+
+            mw.Show();
+        }
     }
 }
