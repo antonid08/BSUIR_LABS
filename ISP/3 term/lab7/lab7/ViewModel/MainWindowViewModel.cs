@@ -65,8 +65,8 @@ namespace lab7.ViewModel
         
             PlayLists = new List<PlayList>();
             
-            initializePlayList(0);
-
+            initializePlayLists();
+            SelectedPlayList = PlayLists[0];
 
             PlayButtonPressedCommand = new Command(arg => onPlayButtonClick());
             NextButtonPressedCommand = new Command(arg => onNextButtonClick());
@@ -77,15 +77,23 @@ namespace lab7.ViewModel
 
         }
 
-        public void initializePlayList(int index)
+        public void initializePlayLists()
         {
-            PlayLists.Add(new PlayList("Memes"));
-            PlayLists[index].addComposition(new Composition(1, 5, "My name is..", "John Cena",
+            PlayLists.Add(new PlayList("First playlist"));
+            PlayLists[0].addComposition(new Composition(1, 5, "Ария", "Беспечный ангел",
                 new TimeSpan(0, 0, 5)));
-            PlayLists[index].addComposition(new Composition(2, 10, "8-800-555-35-35", "Red t-shirt man",
+            PlayLists[0].addComposition(new Composition(2, 10, "Song 2", "...",
                 new TimeSpan(0, 0, 13)));
-            PlayLists[index].addComposition(new Composition(3, 9, "Выпьем за любовь!", "Игорь Николаев",
+            PlayLists[0].addComposition(new Composition(3, 9, "Выпьем за любовь!", "Игорь Николаев",
                 new TimeSpan(0, 2, 48)));
+
+            PlayLists.Add(new PlayList("Songs"));
+            PlayLists[1].addComposition(new Composition(1, 10, "Still loving you", "Scorpions",
+                new TimeSpan(0, 0, 15)));
+            PlayLists[1].addComposition(new Composition(2, 10, "Unforgiven", "Metallica",
+                new TimeSpan(0, 0, 22)));
+            PlayLists[1].addComposition(new Composition(3, 100500, "The road most travelled", "Jeremy Soule",
+                new TimeSpan(0, 2, 33)));
 
         }
 
@@ -95,7 +103,12 @@ namespace lab7.ViewModel
 
         private void onPlayButtonClick()
         {
-            SelectedPlayList.play(CompositionsListBoxSelectedIndex);
+            if (SelectedPlayList.PlayButtonState.Equals(SelectedPlayList.PlayState))
+            {
+                SelectedPlayList.play(CompositionsListBoxSelectedIndex);
+            }
+            else
+                SelectedPlayList.pause();
         }
 
         private void onNextButtonClick()

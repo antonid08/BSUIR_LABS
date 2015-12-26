@@ -46,7 +46,7 @@
                                 <i:EventTrigger EventName="MouseDoubleClick">
                                     <i:InvokeCommandAction Command="{Binding DataContext.CompositionsListBoxItemDoubleClickedCommand, RelativeSource={RelativeSource AncestorType={x:Type Window}}}"/>
                                 </i:EventTrigger>
-                                <i:EventTrigger EventName="SelectionChanged">
+                                <i:EventTrigger EventName="MouseLeftButtonUp">
                                     <i:InvokeCommandAction Command="{Binding DataContext.CompositionsListBoxItemSelectionChangedCommand, RelativeSource={RelativeSource AncestorType={x:Type Window}}}" CommandParameter="{Binding ElementName=playListListBox,Path=SelectedIndex}"/>
                                 </i:EventTrigger>
 

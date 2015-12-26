@@ -163,13 +163,13 @@ namespace lab7
             Timer = new DispatcherTimer();
             Timer.Interval = new TimeSpan(0, 0, 0, 0, 10);
             Timer.Tick += new EventHandler(tickTimer);
+  
         }
 
         private void tickTimer(object sender, EventArgs e)
         {
             long tick = DateTime.Now.Ticks - date.Ticks;
             StopWatch = new DateTime();
-
             StopWatch = StopWatch.AddTicks(tick);
         }
 
@@ -212,6 +212,7 @@ namespace lab7
             isPaused = false;
             isPlaying = false;
 
+            PlayButtonState = PlayState;
             //CurrentCompositionIndex = 0;
 
             if (Timer != null)
@@ -220,20 +221,26 @@ namespace lab7
 
         public void pause()
         {
+            date = DateTime.Now;
+            Timer.Stop();
+         
             isStopped = false;
             isPlaying = false;
             isPaused = true;
 
-            date = DateTime.Now;
-            Timer.Stop();
+            PlayButtonState = PlayState;
+
         }
 
         public void unpause()
         {
+            Timer.Start();
+
             isStopped = false;
             isPlaying = true;
             isPaused = false;
-            Timer.Start();
+
+            PlayButtonState = PauseState;
         }
 
         public void playNext()
@@ -241,8 +248,7 @@ namespace lab7
             if (CurrentCompositionIndex < Compositions.Count)
             {
                 stop();
-                play(++CurrentCompositionIndex);
-                PlayButtonState = PauseState;
+                play(++CurrentCompositionIndex);           
             }
         }
 
@@ -252,7 +258,6 @@ namespace lab7
             {
                 stop();
                 play(--CurrentCompositionIndex);
-                PlayButtonState = PauseState;
             }
         }
 
@@ -275,6 +280,7 @@ namespace lab7
                         date = DateTime.Now;
                         currentTime = 0;
                         CurrentComposition = compositionList[++CurrentCompositionIndex];
+                        PlayButtonState = PauseState;
 
                         break;
                     }
@@ -290,6 +296,10 @@ namespace lab7
                     return;
                 }
             }
+
+            isStopped = true;
+            isPaused = false;
+            isPlaying = false;
         }
         #endregion
 
