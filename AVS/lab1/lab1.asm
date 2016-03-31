@@ -109,9 +109,9 @@ exit:
 
                                         ;проверка правильности ввода
                                         cmp al, 39h
-                                        ja short @finish_input
+                                        ja short @positive_number
                                         sub al, 30h
-                                        jb short @finish_input
+                                        jb short @positive_number
 
                                         mov [bp - 4], al
                                         fimul word ptr [bp - 2] ; сохраняем + умножаем на 10

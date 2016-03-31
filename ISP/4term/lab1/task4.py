@@ -1,8 +1,8 @@
-def fibGen(max):
+def fibGen(number):
     current = 1
     previous = 0
     try:
-        for counter in xrange(max):
+        for counter in xrange(number):
             temp = current + previous
             previous = current
             current = temp

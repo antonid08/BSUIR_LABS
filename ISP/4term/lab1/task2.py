@@ -32,9 +32,7 @@ def radixSort(unsorted):
             unsorted += tempList[k]
     return unsorted
 
-
-data = raw_input('Input numbers: ')
-unsortedList = [int(element) for element in data.split(' ')]
-# print myQuickSort(unsorted_list)
-# print mergeSort(unsorted_list)
-print radixSort(unsortedList)
+if __name__ == '__main__':
+    data = raw_input('Input numbers: ')
+    unsortedList = [int(element) for element in data.split(' ')]
+    print radixSort(unsortedList)
