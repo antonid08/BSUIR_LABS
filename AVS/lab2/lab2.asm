@@ -5,19 +5,41 @@ model small
 
 	a dd ?
 	b dd ?
-	c dd ?
+	h dd ?
+    eps dd ?
 
-	four dd 4.0
-	two dd 2.0
+    x dd ?
+
+    n dd 1
+    k dd 1
+
+    s dd 0
+    y dd 0
+
+    cmp_result dd ?
+
     overflow db ?
 
 	sqrtFromD dd ?
 	
-	divider dw 10
+    two dd 2.0
+
 
     input_a_str db 'Input a: $'
     input_b_str db 'Input b: $'
-    input_c_str db 'Input c: $'
+    input_h_str db 'Input h: $'
+    input_eps_str db 'Input eps: $'
+
+    s_str db 'S(x) = $'
+    y_str db 'Y(x) = $'
+    n_str db 'n = $'
+    x_str db 'x = $'
+    
+    tab_str db 9, '$'
+
+
+    debug_str db 'debug $'
+
 
     no_solutions_str db 'No solutions! $'
 
@@ -45,86 +67,158 @@ main:
 	fstp b ;сохранение вершины с выталкиванием из стека
 
 
-    mov dx, offset input_c_str
+    mov dx, offset input_h_str
     mov ah, 09h
     int 21h
 
 	call inputNumber
-	fstp c ;сохранение вершины с выталкиванием из стека
-
-    fld a
-    
-    ftst ;сраниваем с 0
-    fstsw ax 
-    sahf ;копируем флаги
-    jnz @a_not_null
-
-    fld c ; загрузка в вершину стека
-    fchs
-    fdiv b
-
-    call outputNumber
-
-    jmp exit
+	fstp h ;сохранение вершины с выталкиванием из стека
 
 
-@a_not_null:
-    ;fstp
-
-
-	fld b  
-	fmul b  ; ST(0) = b^2
-
-
-	fld a ;загрузка в вершину стека
-	fmul c
-	fmul four ;ST(0) = 4*a*c, ST(1) = b^2
-
-	fsub ; ST(0) = b^2 - 4*a*c
-	
-	ftst ;сраниваем с 0
-
-	fstsw ax 
-    sahf ;копируем флаги
-
-    jc no_solutions ; если дискриминант отрицательный - выходим
-
-    fsqrt ; считаем корень из дискриминанта
-    fst sqrtFromD  ;сохраним его
-
-    fld b ; ST(0) = b
-    fchs ; ST(0) = -b
-
-    fadd ; ST(0) = ST(0) + ST(1) = -b + sqrt(d)
-    fdiv a; делим на a
-    fdiv two; делим на 2
-
-	call outputNumber
-
-	fld sqrtFromD ;стек сбился, восстановим корень из дискр.
-
-	fld b ; ST(0) = b
-    fchs ; ST(0) = -b
-
-    fsubr ; ST(0) = ST(0) - ST(1) = -b - sqrt(d)
-
-    fdiv a; делим на a
-    fdiv two; делим на 2
-
-    mov ah,02h
-	mov dl,0ah
-	int 21h  ;перенос строки
-    
-    call outputNumber
-
-
-    jmp exit
-
-no_solutions:
-    mov dx, offset no_solutions_str
+    mov dx, offset input_eps_str
     mov ah, 09h
     int 21h
+
+    call inputNumber
+    fstp eps ;сохранение вершины с выталкиванием из стека
+
+
+    fld a ;загружаем а в вершину стека
+    fstp x; теперь x=a
+
+ @new_x:   
+
+    fld1 ; загружаем еденицу, чтобы можно было потом считать логарифм (там нужно, чтобы st(1) = 1)
+@calculate_y:
+    fld x ;считаем 2*sin(x/2)
+    fdiv two
+
+    fsin
+;    call outputNumber
+
+    fmul two
+    fabs ;модуль
+
+;call outputNumber
     
+
+    fyl2x ;ST(1)*log2(ST(0)), результат в ST(0)
+    fldln2;загружает константу натурального логарифма 2 в вершину стека сопроцессора.
+    fmul;Процессор может вычислить только логарифм по основанию 2.
+    ;поэтому полученное значение умножаем на натуральный логарифм от 2. 
+    ;И получаем натуральный логарифм от исходного числа.
+    fchs ; меняем знак
+    ;тут st(0) = y
+    fst y ; сохраняем в пямать
+
+;call outputNumber
+   
+
+    fld1 ; грузим 1
+    
+    fldz ;грузим 0
+    fst s ; s = 0
+    fstp k ; k = 0 
+
+@iteration_x:
+    fld s
+
+    fld1 ; грузим 1
+    fadd k ; st(0) = 1 + k
+    fstp k ; выгружаем в память
+
+    fld x; грузим x
+    fmul k; st(0) = x * k
+    fcos ; st(0) = cos(x*k)
+    fdiv k ; st(0) = cos(x*k)/k
+
+    fld s; st(0) = s, предыдущее выражение смещается в st(1)
+    fadd ; прибавляес к s результат новой итерации. st(0) = новое s
+    fst s; загружаем обратно в s. st(0) до сих пор = s
+
+    fsub y ; st(0) = s - y (будем сравниать разность)
+    fabs ; возьмем модуль
+
+    fld eps ; st(0) = eps, st(1) = s - y
+
+    fcom ; сравниваем eps и (s-y)
+    fstsw ax ; загружем регистр состояния swr в целочисленный региср ax 
+    sahf ; загружаем ah во флаговый регистр
+
+
+
+    jc @iteration_x ; если не достигли нужной точности, делаем еще итерацию
+
+@output_results:
+
+    lea dx, x_str                                                        
+    mov ah,09h                                                          
+    int 21h  
+
+    fld x
+    call outputNumber
+
+
+    lea dx, tab_str                                                        
+    mov ah,09h                                                          
+    int 21h   
+
+
+    lea dx, n_str                                                        
+    mov ah,09h                                                          
+    int 21h  
+
+    fld k
+    call outputNumber
+
+
+    lea dx, tab_str                                                        
+    mov ah,09h                                                          
+    int 21h 
+
+
+    lea dx, s_str                                                        
+    mov ah,09h                                                          
+    int 21h   
+
+    fld s
+    call outputNumber
+
+
+    lea dx, tab_str                                                        
+    mov ah,09h                                                          
+    int 21h  
+
+
+    lea dx, y_str                                                        
+    mov ah,09h                                                          
+    int 21h  
+
+    fld y
+    call outputNumber
+
+
+    mov ah,02h
+    mov dl,0ah
+    int 21h  ;перенос строки
+    
+
+@check_count:
+
+    fld b ;загружаем b
+   
+    fld x
+    fadd h ; загружаем и инкрементируем x
+    fst x; сохраняем x
+
+    fcom ;сравниваем x и b
+    fstsw ax
+    sahf
+
+    jc @new_x ;если x все еще меньше, идем на новую итерацию
+
+
+
 
 exit:
         mov     ah, 4ch 
@@ -341,7 +435,7 @@ exit:
                                         mov dl, '.'
                                         int 21h
 
-                                        mov cx, 3 ;будет 3 цифры в дробной части, не больше
+                                        mov cx, 5 ;будет 3 цифры в дробной части, не больше
 
                                 @fractional_part:
                                             fimul word ptr [bp - 2] ; умножить др. часть на 10
