@@ -41,3 +41,12 @@ $RECYCLE.BIN/
 Network Trash Folder
 Temporary Items
 .apdisk
+*.fuse_hidden0000006b00000001
+ISP/4term/lab2/.fuse_hidden000001a200000001
+*.fuse_hidden000001a300000002
+MCHA/lab3/.ropeproject/config.py
+MCHA/lab2/.ropeproject/history
+*.ipynb
+MCHA/lab2/.ropeproject/config.py
+ISP/4term/lab2/.ropeproject/globalnames
+*.py
