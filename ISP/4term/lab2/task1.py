@@ -8,22 +8,37 @@ def sortBuffer(buff):
     return tempfile
 
 
+def getSortedTempfiles(unsortedFile, bufferSize):
+    tempFiles = []
+
+    while True:
+        buff = unsortedFile.read(bufferSize)
+        if not buff:
+            break
+        tempFiles.append(sortBuffer(buff))
+
+    return tempFiles
+
+
+def merge(tempFiles):
+    def merge(leftFile, rigthFile):
+        result = tf.TemporaryFile();
+
+
+
+    for index in [x for x in xrange(0, len(tempfiles) - 1 , 2)]:
+        merge(tempFiles[index], tempFiles[index + 1]
+
 def sort(fileName, bufferSize):
     with open(fileName, 'r') as unsortedFile:
         bufferSize -= bufferSize % len(unsortedFile.readline())
         unsortedFile.seek(0)
 
-        tempFiles = []
+        tempFiles = getSortedTempfiles(unsortedFile, bufferSize)
 
-        while True:
-            buff = unsortedFile.read(bufferSize)
-            if not buff:
-                break
-            tempFiles.append(sortBuffer(buff))
+    with open(resultFileName, 'w') as resultFile:
+        resultFile.write(merge(tempfiles))
 
-        print len(tempFiles)
-        tempFiles[0].seek(0)
-        print tempFiles[0].read()
 
 
 def main():
