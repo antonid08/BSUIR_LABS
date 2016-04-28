@@ -10,7 +10,7 @@ class NotJsonSerializibleException(TypeError):
 
 
 def transformString(string):
-    return '"%s"' % string
+    return '"%s"' % string.replace('\"', '\\\"')
 
 
 def transformNumber(number):
@@ -25,7 +25,7 @@ def transformList(obj):
     result = '['
     items = []
     for item in obj:
-        items.append(toJson(item))
+        items.append(to_json(item))
 
     result += ', '.join(str(item) for item in items) + ']'
     return result
@@ -37,13 +37,13 @@ def transformDict(dictionary):
     pairs = []
 
     for key in keys:
-        pairs.append(transformString(key) + ': ' + toJson(dictionary[key]))
+        pairs.append(transformString(key) + ': ' + to_json(dictionary[key]))
 
     result += ', '.join(pair for pair in pairs) + '}'
     return result
 
 
-def toJson(obj, raiseUnknown=False):
+def to_json(obj, raiseUnknown=False):
     if isinstance(obj, str):
         return transformString(obj)
     elif isinstance(obj, (int, float)):
@@ -58,17 +58,17 @@ def toJson(obj, raiseUnknown=False):
     raise NotJsonSerializibleException(obj)
 
 
-class Kek(object):
+class Test(object):
     k = 1000
 
 
 def main():
-    kek = [1, 2, 3]
-    topkek = {'s': 1, 'k': 2}
-    k = [kek, topkek]
-    ka = Kek()
+    test = [1, 2, 3]
+    test2 = {'s': None, 'k': 2}
+    k = [test, test2]
+    test3 = 'ss\"'
     print json.dumps(k)
-    print toJson(ka)
+    print to_json(test3)
     # print str(kek)
     # print json.dumps(kek)
 

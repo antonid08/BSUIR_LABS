@@ -1,22 +1,46 @@
-def myXrange(finish, start=0, step=1):
-    if step == 0:
-        raise ValueError('Step can\' t be 0')
+class My_xrange(object):
+    def __init__(self, finish, start=0, step=1):
+        self.finish = finish
+        self.start = start
+        self.step = step
+        self.pointer = 0
+        self.current_value = start
 
-    while start <= finish:
-        yield start
-        start += step
+    def __iter__(self):
+        return self
+
+    def next(self):
+        if self.current_value < self.finish:
+            try:
+                return self.current_value
+            finally:
+                self.current_value += self.step
+        else:
+            self.current_value = self.start
+            raise StopIteration
+
+    def __getitem__(self, index):
+        return self.start + self.step * index
+
 
 def main():
-    for item in myXrange(3):
+    a = My_xrange(3)
+    print 'First loop (a):'
+    for item in a:
         print item
     print ''
 
-    for item in myXrange(10, 2):
+    print 'Second loop (a):'
+    for item in a:
+        print item
+
+    for item in My_xrange(10, 2):
         print item
     print ''
 
-    for item in myXrange(10, 2, 3):
-        print item
+    print My_xrange(10, 2, 2)[2]
+
+    print next(reversed(xrange(100500)))
 
 if __name__ == '__main__':
     main()

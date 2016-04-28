@@ -14,19 +14,28 @@ class MyVector(object):
             raise TypeError
 
     def __add__(self, other):
-        return MyVector(map(lambda x, y: (x or 0) + (y or 0), self.mainList,
-                            other.mainList))
+        try:
+            return MyVector(map(lambda x, y: x + y, self.mainList,
+                                other.mainList))
+        except TypeError:
+            raise ValueError('Vectors have to be identical dimension')
 
     def __sub__(self, other):
-        return MyVector(map(lambda x, y: (x or 0) - (y or 0), self.mainList,
-                            other.mainList))
+        try:
+            return MyVector(map(lambda x, y: x - y, self.mainList,
+                                other.mainList))
+        except TypeError:
+            raise ValueError('Vectors have to be identical dimension')
 
     def __mul__(self, other):
         if isinstance(other, (int, float)):
             return MyVector([x * other for x in self.mainList])
         elif isinstance(other, MyVector):
-            return MyVector(map(lambda x, y: (x or 1) * (y or 1), self.mainList,
-                                other.mainList))
+            try:
+                return sum(map(lambda x, y: x * y, self.mainList,
+                               other.mainList))
+            except TypeError:
+                raise ValueError('Vectors have to be identical dimension')
         raise TypeError
 
     def __eq__(self, other):
@@ -47,7 +56,9 @@ class MyVector(object):
 
 def main():
     v1 = MyVector([1, 2, 3])
-    # v2 = MyVector([2, 3])
+    v2 = MyVector([0, 0, 0])
+
+    print v1 * v2
 
     print str(v1.size())
 

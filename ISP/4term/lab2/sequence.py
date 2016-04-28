@@ -7,19 +7,26 @@ class Sequence(object):
         self.counter = 0
 
     def __iter__(self):
-        return self
+        return self.sequence.__iter__()
 
     def next(self):
-        if (self.counter < len(self.sequence)):
-            obj = self.sequence[self.counter]
+        try:
+            self.sequence[self.counter]
+        except IndexError:
+            self.counter = 0
+            raise StopIteration
+        finally:
             self.counter += 1
-            return obj
-
-        self.counter = 0
-        raise StopIteration
 
     def filter(self, function):
-        return [item for item in self.sequence if function(item)]
+        offset = 0
+        for i in range(len(self.sequence)):
+            item = self.sequence[i - offset]
+            if not function(item):
+                self.sequence.remove(item)
+                offset += 1
+
+        return self.sequence
 
 
 def testFunc(x):
@@ -29,8 +36,15 @@ def testFunc(x):
 def main():
     seq = Sequence(range(10))
     print seq.sequence
-    print seq.filter(lambda x: x % 2)
+
+    for i in seq:
+        print i
+
     print seq.filter(testFunc)
+
+    for i in seq:
+        print i
+    # print seq.filter(lambda x: x % 2)
 
 if __name__ == '__main__':
     main()
